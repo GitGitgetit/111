@@ -1,0 +1,44 @@
+Sub GenerateRandomNumbers()
+
+    Dim totalSum As Long
+    Dim numValues As Integer
+    Dim minValue As Long
+    Dim values() As Long
+    Dim currentSum As Long
+    Dim difference As Long
+    Dim i As Integer
+    Dim adjustment As Long
+    Dim index As Integer
+
+    totalSum = 120000000 ' 总和为1.2亿
+    numValues = 50 ' 需要生成50个值
+    minValue = 3000000 ' 每个值最小为300万
+    
+    ReDim values(1 To numValues)
+    
+    currentSum = 0
+    For i = 1 To numValues
+        values(i) = Int((totalSum / numValues - minValue) * Rnd + minValue)
+        currentSum = currentSum + values(i)
+    Next i
+    
+    difference = totalSum - currentSum
+    
+    Do While difference <> 0
+        index = Int((numValues - 1 + 1) * Rnd + 1)
+        
+        adjustment = difference
+        If values(index) + adjustment >= minValue Then
+            values(index) = values(index) + adjustment
+            currentSum = currentSum + adjustment
+            difference = totalSum - currentSum
+        End If
+    Loop
+    
+    For i = 1 To numValues
+        Debug.Print "Value " & i & ": " & values(i)
+    Next i
+    
+    Debug.Print "Total Sum: " & currentSum
+
+End Sub
