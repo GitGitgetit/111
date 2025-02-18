@@ -1,0 +1,22 @@
+import random
+
+total_sum = 120000000
+num_values = 50
+min_value = 3000000
+
+values = [random.randint(min_value, total_sum // num_values) for _ in range(num_values)]
+
+current_sum = sum(values)
+
+difference = total_sum - current_sum
+
+while difference != 0:
+    index = random.randint(0, num_values - 1)
+    adjustment = min(difference, total_sum - sum(values))
+
+    if values[index] + adjustment >= min_value:
+        values[index] += adjustment
+        difference -= adjustment
+
+print(values)
+print("Total sum:", sum(values))
